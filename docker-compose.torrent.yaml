@@ -13,11 +13,10 @@ services:
       - PRIVATE_KEY_FILE=/run/secrets/privatekey
       # Define your local network that should bypass the VPN (adjust to your LAN)
       - NET_LOCAL=192.168.2.0/24
+      - PRIVATE_KEY
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=1
-    secrets:
-      - privatekey
     restart: unless-stopped
 
   qbittorrent:
@@ -40,7 +39,3 @@ services:
     depends_on:
         - nordlynx
     restart: unless-stopped
-
-secrets:
-  privatekey:
-    file: ~/app/secrets/nordlynx_privatekey.txt
