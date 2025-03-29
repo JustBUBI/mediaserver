@@ -71,7 +71,7 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - /path/to/overseerr/config:/config
+      - ~/app/overseerr:/config
     ports:
       - 5055:5055
     restart: unless-stopped
@@ -106,3 +106,20 @@ services:
   #   ports:
   #     - 9983:80
   #   restart: unless-stopped
+
+  # Duplicati for backups
+  duplicati:
+    image: lscr.io/linuxserver/duplicati:latest
+    container_name: duplicati
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - SETTINGS_ENCRYPTION_KEY=g3mediaserver
+    volumes:
+      - ~/app/duplicati:/config  # Duplicati's own configuration
+      - ~/app:/source/app        # All *arr configs
+      # Explicitly exclude media directories by not mounting them
+    ports:
+      - "8200:8200"  # Web UI port
+    restart: unless-stopped
