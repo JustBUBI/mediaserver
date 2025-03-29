@@ -61,3 +61,48 @@ services:
     ports:
       - 6767:6767
     restart: unless-stopped
+
+  # Overseerr (outside VPN, manages requests)
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /path/to/overseerr/config:/config
+    ports:
+      - 5055:5055
+    restart: unless-stopped
+
+  # Autoscan (monitors file system changes and triggers library scans)
+  # autoscan:
+  #   image: cloudb0x/autoscan:latest
+  #   container_name: autoscan
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Etc/UTC 
+  #     # Optional: Set verbosity (0 = info, 1 = debug, 2 = trace)
+  #     - AUTOSCAN_VERBOSITY=0
+  #   volumes:
+  #     - ~/app/autoscan:/config  # Autoscan configuration files
+  #     - ~/media:/media:ro  # Read-only access to your media
+  #   ports:
+  #     - "3030:3030"  # Autoscan webhook port
+  #   restart: unless-stopped
+
+  # Organizr (outside VPN, manages services)
+  # organizr:
+  #   image: linuxserver/organizr
+  #   container_name: organizr
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Etc/UTC
+  #   volumes:
+  #     - ~/app/organizr:/config
+  #   ports:
+  #     - 9983:80
+  #   restart: unless-stopped
