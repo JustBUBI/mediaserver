@@ -1,0 +1,63 @@
+version: "3.9"
+services:
+  # Prowlarr (outside VPN, manages indexers)
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ~/app/prowlarr:/config
+    ports:
+      - "9696:9696"  # Prowlarr WebUI
+    restart: unless-stopped
+
+  # Radarr (outside VPN, manages movies)
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ~/app/radarr:/config       # Radarr config files
+      - ~/downloads:/downloads     # Must match qBittorrent's download path
+      - ~/media/movies:/movies     # Final library location (adjust if needed)
+    ports:
+      - "7878:7878"  # Radarr Web UI (now on host network)
+    restart: unless-stopped
+
+  # Sonarr (outside VPN, manages series)
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ~/app/sonarr:/config
+      - ~/media/series:/tv #optional
+      - ~/downloads:/downloads #optional
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  # Bazarr (outside VPN, manages subtitles)
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ~/app/bazarr:/config
+      - ~/media/movies:/movies #optional
+      - ~/media/series:/tv #optional
+    ports:
+      - 6767:6767
+    restart: unless-stopped

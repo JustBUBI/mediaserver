@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - VERSION=docker  # Auto-updates to latest version
+    volumes:
+      - ~/app/plex:/config  # Plex metadata (database, thumbnails)
+      - ~/media:/media      # Match Radarr's media library path
+    # ports:
+    #   - "32400:32400"      # Web UI
+    #   - "32400:32400/udp"  # Streaming
+    #   - "32469:32469"      # Discover
+    #   - "5353:5353/udp"    # mDNS
+    restart: unless-stopped
+    # networks:
+    #   - default  # Runs on the default bridge network (no VPN)
