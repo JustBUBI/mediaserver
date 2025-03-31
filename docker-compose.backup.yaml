@@ -1,9 +1,9 @@
 version: "3.9"
 services:
   # Duplicati for backups
-  duplicati2:
+  duplicati:
     image: lscr.io/linuxserver/duplicati:latest
-    container_name: duplicati2
+    container_name: duplicati
     environment:
       - PUID=1000
       - PGID=1000
