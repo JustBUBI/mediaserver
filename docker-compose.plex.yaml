@@ -10,9 +10,10 @@ services:
       - TZ=Etc/UTC
       - VERSION=docker  # Auto-updates to latest version
     volumes:
-      - ~/app/plex:/config  # Plex metadata (database, thumbnails)
-      - ~/media:/media      # Match Radarr's media library path
-    # ports:
+      - ${HOME}/app/config/plex:/config  # Plex metadata (database, thumbnails)
+      - ${HOME}/media/series:/tv      # Match Radarr's media library path
+      - ${HOME}/media/movies:/movies      # Match Sonarr's media library path
+    # ports: # Only when using bridge network
     #   - "32400:32400"      # Web UI
     #   - "32400:32400/udp"  # Streaming
     #   - "32469:32469"      # Discover

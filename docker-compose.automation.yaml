@@ -9,7 +9,7 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ~/app/prowlarr:/config
+      - ${HOME}/app/config/prowlarr:/config
     ports:
       - "9696:9696"  # Prowlarr WebUI
     restart: unless-stopped
@@ -23,9 +23,9 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ~/app/radarr:/config       # Radarr config files
-      - ~/downloads:/downloads     # Must match qBittorrent's download path
-      - ~/media/movies:/movies     # Final library location (adjust if needed)
+      - ${HOME}/app/config/radarr:/config       # Radarr config files
+      - ${HOME}/downloads:/downloads     # Must match qBittorrent's download path
+      - ${HOME}/media/movies:/movies     # Final library location (adjust if needed)
     ports:
       - "7878:7878"  # Radarr Web UI (now on host network)
     restart: unless-stopped
@@ -39,9 +39,9 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ~/app/sonarr:/config
-      - ~/media/series:/tv #optional
-      - ~/downloads:/downloads #optional
+      - ${HOME}/app/config/sonarr:/config
+      - ${HOME}/media/series:/tv #optional
+      - ${HOME}/downloads:/downloads #optional
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -55,9 +55,9 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ~/app/bazarr:/config
-      - ~/media/movies:/movies #optional
-      - ~/media/series:/tv #optional
+      - ${HOME}/app/config/bazarr:/config
+      - ${HOME}/media/movies:/movies #optional
+      - ${HOME}/media/series:/tv #optional
     ports:
       - 6767:6767
     restart: unless-stopped
@@ -71,55 +71,7 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ~/app/overseerr:/config
+      - ${HOME}/app/config/overseerr:/config
     ports:
       - 5055:5055
-    restart: unless-stopped
-
-  # Autoscan (monitors file system changes and triggers library scans)
-  # autoscan:
-  #   image: cloudb0x/autoscan:latest
-  #   container_name: autoscan
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=Etc/UTC 
-  #     # Optional: Set verbosity (0 = info, 1 = debug, 2 = trace)
-  #     - AUTOSCAN_VERBOSITY=0
-  #   volumes:
-  #     - ~/app/autoscan:/config  # Autoscan configuration files
-  #     - ~/media:/media:ro  # Read-only access to your media
-  #   ports:
-  #     - "3030:3030"  # Autoscan webhook port
-  #   restart: unless-stopped
-
-  # Organizr (outside VPN, manages services)
-  # organizr:
-  #   image: linuxserver/organizr
-  #   container_name: organizr
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=Etc/UTC
-  #   volumes:
-  #     - ~/app/organizr:/config
-  #   ports:
-  #     - 9983:80
-  #   restart: unless-stopped
-
-  # Duplicati for backups
-  duplicati:
-    image: lscr.io/linuxserver/duplicati:latest
-    container_name: duplicati
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
-      - SETTINGS_ENCRYPTION_KEY=g3mediaserver
-    volumes:
-      - ~/app/duplicati:/config  # Duplicati's own configuration
-      - ~/app:/source/app        # All *arr configs
-      # Explicitly exclude media directories by not mounting them
-    ports:
-      - "8200:8200"  # Web UI port
     restart: unless-stopped

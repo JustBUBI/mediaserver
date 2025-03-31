@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  # Duplicati for backups
+  duplicati2:
+    image: lscr.io/linuxserver/duplicati:latest
+    container_name: duplicati2
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - SETTINGS_ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - FILE__DUPLICATI__WEBSERVICE_PASSWORD=/run/secrets/webpassword
+    volumes:
+      - ${HOME}/app/config/duplicati:/config  # Duplicati's own configuration
+      - ${HOME}/app/config:/source/app        # All *arr configs
+      # Explicitly exclude media directories by not mounting them
+    ports:
+      - "8200:8200"  # Web UI port
+    secrets:
+      - webpassword
+    restart: unless-stopped
+
+secrets:
+  webpassword:
+    file: ${HOME}/app/secrets/duplicati_webservice_password.txt

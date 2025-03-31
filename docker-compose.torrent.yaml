@@ -30,8 +30,8 @@ services:
       - WEBUI_PORT=8080
       - TORRENTING_PORT=6881
     volumes:
-      - ~/app/qbittorrent:/config
-      - ~/downloads:/downloads #optional
+      - ${HOME}/app/config/qbittorrent:/config
+      - ${HOME}/downloads:/downloads #optional
     # ports:
     #   - 8080:8080
     #   - 6881:6881
@@ -43,4 +43,4 @@ services:
 
 secrets:
   privatekey:
-    file: ~/app/secrets/nordlynx_privatekey.txt
+    file: ${HOME}/app/secrets/nordlynx_privatekey.txt
