@@ -6,13 +6,13 @@ services:
     ports:
         - "8080:8080" # port I want forwarded for the qbittorrent container
         - "6881:6881" # port I want forwarded for the qbittorrent container
-        - "6881:6881/udp" # port I want forwarded for the qbittorrent container
+        # - "6881:6881/udp" # port I want forwarded for the qbittorrent container
     cap_add:
       - NET_ADMIN #required
     environment:
       - PRIVATE_KEY_FILE=/run/secrets/privatekey
       # Define your local network that should bypass the VPN (adjust to your LAN)
-      - NET_LOCAL=192.168.2.0/24
+      - NET_LOCAL=192.168.2.0/24,100.64.0.0/10
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=1
