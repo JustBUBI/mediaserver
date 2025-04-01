@@ -43,4 +43,4 @@ services:
 
 secrets:
   privatekey:
-    file: host/app/secrets/nordlynx_privatekey.txt
+    file: /host/app/secrets/nordlynx_privatekey.txt
