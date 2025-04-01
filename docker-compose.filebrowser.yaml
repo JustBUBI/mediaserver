@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    restart: unless-stopped
+    ports:
+      - "8081:80"  # Browser UI port
+    volumes:
+      - ${HOME}/app/config/filebrowser:/config  # Persistent config
+      - ${HOME}/downloads:/srv/downloads  # Mount downloads directory
+      - ${HOME}/media:/srv/media  # Mount media directory
+    environment:
+      # - FB_BASEURL=/  # Optional: For reverse proxy setups
+      # - FB_USERNAME=admin  # Set custom admin username
+      # - FB_PASSWORD=changeme  # Set strong password
+      - TZ=Etc/UTC
