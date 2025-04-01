@@ -9,7 +9,7 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ${HOME}/app/config/prowlarr:/config
+      - /host/app/config/prowlarr:/config
     ports:
       - "9696:9696"  # Prowlarr WebUI
     restart: unless-stopped
@@ -23,9 +23,8 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ${HOME}/app/config/radarr:/config       # Radarr config files
-      - ${HOME}/downloads:/downloads     # Must match qBittorrent's download path
-      - ${HOME}/media/movies:/movies     # Final library location (adjust if needed)
+      - /host/app/config/radarr:/config       # Radarr config files
+      - /host/data:/data     # Match data folder
     ports:
       - "7878:7878"  # Radarr Web UI (now on host network)
     restart: unless-stopped
@@ -39,9 +38,8 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ${HOME}/app/config/sonarr:/config
-      - ${HOME}/media/series:/tv #optional
-      - ${HOME}/downloads:/downloads #optional
+      - /host/app/config/sonarr:/config
+      - /host/data:/data
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -55,9 +53,8 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ${HOME}/app/config/bazarr:/config
-      - ${HOME}/media/movies:/movies #optional
-      - ${HOME}/media/series:/tv #optional
+      - /host/app/config/bazarr:/config
+      - /host/data:/data
     ports:
       - 6767:6767
     restart: unless-stopped
@@ -71,7 +68,7 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ${HOME}/app/config/overseerr:/config
+      - /host/app/config/overseerr:/config
     ports:
       - 5055:5055
     restart: unless-stopped

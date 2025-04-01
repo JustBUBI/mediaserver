@@ -10,8 +10,8 @@ services:
       - TZ=Etc/UTC
       - SETTINGS_ENCRYPTION_KEY=${ENCRYPTION_KEY}
     volumes:
-      - ${HOME}/app/config/duplicati:/config  # Duplicati's own configuration
-      - ${HOME}/app/config:/source/app/config # All *arr configs
+      - /host/app/config/duplicati:/config  # Duplicati's own configuration
+      - /host/app/config:/source/app/config # All *arr configs
       # Explicitly exclude media directories by not mounting them
     ports:
       - "8200:8200"  # Web UI port
