@@ -8,14 +8,13 @@ sudo usermod -aG docker $USER
 newgrp docker
 
 Create the following folder structure:
-mkdir app app/{config,secrets} media media/{movies,series} downloads -v
-mkdir /host/data /host/data/media /host/data/media/{movies,tv} /host/data/torrents /host/data/torrents/{movies,tv} -v
+sudo mkdir /host /host/{app,data} /host/app/{config,secrets} /host/data/media /host/data/media/{movies,tv} /host/data/torrents -v
 sudo chown -R <user>:<group> /host
 
 create docker portainer:
 cd /host/app && touch docker-compose.portainer.yaml
 nano docker-compose.portainer.yaml -> Copy and paste
-docker-compose -f docker-compose.portainer.yaml up
+docker-compose -f docker-compose.portainer.yaml up -d
 Goto http://<machine_ip>:9000 and set up password
 
 Create a new stack in Portainer for backup
@@ -28,6 +27,7 @@ Change the password in Settings -> Change server passphrase
 Add private key for nordVPN
 touch /host/app/secrets/nordlynx_privatekey.txt
 How to get private key: [Instructions](https://github.com/bubuntux/nordlynx#how-to-get-your-private_key)
+docker run --rm --cap-add=NET_ADMIN -e TOKEN={{{TOKEN}}} ghcr.io/bubuntux/nordvpn:get_private_key
 Add your private key in the file.
 nano /hosts/app/secrets/nordlynx_privatekey.txt
 Create a new stack in Portainer for torrenting
